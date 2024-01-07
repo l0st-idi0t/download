@@ -1,2 +1,2 @@
 # download
-quick web app to download stuff via direct links
+quick web app to download videos via direct links
