@@ -1,0 +1,11 @@
+{
+  "builds": [
+    {
+      "src": "api/**",
+      "use": "@vercel/node",
+      "config": {
+        "NPM_INSTALL": "true"
+      }
+    }
+  ]
+}
