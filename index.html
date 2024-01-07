@@ -34,6 +34,15 @@
         border-radius: 5px;
         cursor: pointer;
       }
+
+      .loading {
+        display: none;
+        margin-left: 10px;
+      }
+
+      .loading:before {
+        content: "⏳";
+      }
     </style>
   </head>
   <body>
@@ -41,30 +50,37 @@
     <input type="text" id="videoUrl" placeholder="Paste your video URL here" />
 
     <button onclick="downloadVideo()">Download Video</button>
+    <span class="loading" id="loading"></span>
 
     <script>
       async function downloadVideo() {
         const videoUrlInput = document.getElementById("videoUrl");
         const videoUrl = videoUrlInput.value.trim();
+        const loadingIndicator = document.getElementById("loading");
 
         if (!videoUrl) {
           alert("Please enter a valid video URL.");
           return;
         }
 
-        const downloadUrl = `https://download-l0st-idi0t.vercel.app/api/download.js?url=${encodeURIComponent(
-          videoUrl
-        )}`;
+        try {
+          loadingIndicator.style.display = "inline";
 
-        // some workaround to avoid opening in new tab
-        const anchor = document.createElement("a");
-        anchor.href = downloadUrl;
-        anchor.download = `downloaded_video.mp4`;
+          const response = await fetch(videoUrl);
+          const blob = await response.blob();
 
-        document.body.appendChild(anchor);
-        anchor.click();
-
-        document.body.removeChild(anchor);
+          const a = document.createElement("a");
+          a.href = window.URL.createObjectURL(blob);
+          a.download = `downloaded_video.mp4`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } catch (error) {
+          console.error("Error downloading video:", error.message);
+          alert("Error downloading video.");
+        } finally {
+          loadingIndicator.style.display = "none";
+        }
       }
     </script>
   </body>
