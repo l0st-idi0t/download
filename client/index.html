@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Downloader</title>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+        font-family: sans-serif;
+      }
+
+      label {
+        margin-right: 10px;
+      }
+
+      input {
+        padding: 5px;
+        margin-right: 10px;
+        border-radius: 5px;
+        border: 1px solid #cccccc;
+      }
+
+      button {
+        background-color: #3498db;
+        color: #ffffff;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="videoUrl">Video URL:</label>
+    <input type="text" id="videoUrl" placeholder="Paste your video URL here" />
+
+    <button onclick="downloadVideo()">Download Video</button>
+
+    <script>
+      async function downloadVideo() {
+        const videoUrlInput = document.getElementById("videoUrl");
+        const videoUrl = videoUrlInput.value.trim();
+
+        if (!videoUrl) {
+          alert("Please enter a valid video URL.");
+          return;
+        }
+
+        const downloadUrl = `https://download-l0st-idi0t.vercel.app/download?url=${encodeURIComponent(
+          videoUrl
+        )}`; // need to change later
+
+        // some workaround to avoid opening in new tab
+        const anchor = document.createElement("a");
+        anchor.href = downloadUrl;
+        anchor.download = `downloaded_video.mp4`;
+
+        document.body.appendChild(anchor);
+        anchor.click();
+
+        document.body.removeChild(anchor);
+      }
+    </script>
+  </body>
+</html>
