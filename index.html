@@ -74,7 +74,9 @@
           const blob = await response.blob();
 
           const a = document.createElement("a");
-          a.href = window.URL.createObjectURL(blob);
+          a.href = window.URL.createObjectURL(
+            "https://corsproxy.io/?" + encodeURIComponent(blob)
+          );
           a.download = `downloaded_video.mp4`;
           document.body.appendChild(a);
           a.click();
